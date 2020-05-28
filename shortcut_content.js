@@ -17,8 +17,8 @@ chrome.storage.sync.clear();
 	}]
 };*/
 //chrome.storage.sync.set(obj);
-function PressKey(keyCode,key,shiftkey,ctrlkey){
-         
+function PressKey(keyCode,key,shiftkey,ctrlkey,type){
+         if()
         var CurrentEvent= createmyKey(keyCode,key,shiftkey,ctrlkey);
         if(document.activeElement.tagName=='TEXTAREA'){
             var pressedkey=CurrentEvent.key;
@@ -33,11 +33,18 @@ function PressKey(keyCode,key,shiftkey,ctrlkey){
         }
 
 }
-function createmyKey(keyCode,key,shiftkey,ctrlkey){
+function createmyKeyP(keyCode,key,shiftkey,ctrlkey){
     var keyevent = new KeyboardEvent('keypress',{"keyCode" : keyCode,"ctrlKey":ctrlkey,"key":key,"shiftKey":shiftkey});
     return keyevent;
 }
-
+function createmyKeyU(keyCode,key,shiftkey,ctrlkey){
+    var keyevent = new KeyboardEvent('keyup',{"keyCode" : keyCode,"ctrlKey":ctrlkey,"key":key,"shiftKey":shiftkey});
+    return keyevent;
+}
+function createmyKeyD(keyCode,key,shiftkey,ctrlkey){
+    var keyevent = new KeyboardEvent('keydown',{"keyCode" : keyCode,"ctrlKey":ctrlkey,"key":key,"shiftKey":shiftkey});
+    return keyevent;
+}
 function KeydownHandler(event){
     //console.log('present or not',PressedKeyTrack.has(PressedKey))
     console.log('keydown',PressedKeysCount,PressedKeyTrack.size);
@@ -108,8 +115,6 @@ function ExecuteSet(Instructions,start){
     }
 }
 function ExecuteSend(SendSequence,state,Number,Instructions){
-    var shift=0;
-    var ctrl=0;
     console.log('Executing Send',SendSequence);
     if(state==1){
         chrome.runtime.sendMessage({'InstructionN':Number,'Instructions':Instructions});
@@ -120,7 +125,10 @@ function ExecuteSend(SendSequence,state,Number,Instructions){
         console.log(i,' ',SendSequence[i]);
         var temp=SendSequence[i].keyCode;
         var tempKey=SendSequence[i].key;
-        PressKey(temp,tempKey,shift,ctrl);
+        var shift=SendSequence[i].shiftKey;
+        var ctrl=SendSequence[i].ctrlKey;
+        var type=SendSequence[i].type;
+        PressKey(temp,tempKey,shift,ctrl,type);
       
  i++;
 }

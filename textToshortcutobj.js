@@ -40,6 +40,27 @@ var _MAP = {
     220: '\\',
     221: ']',
 };
+var _SHIFT_MAP = {
+    '~': '`',
+    '!': '1',
+    '@': '2',
+    '#': '3',
+    '$': '4',
+    '%': '5',
+    '^': '6',
+    '&': '7',
+    '*': '8',
+    '(': '9',
+    ')': '0',
+    '_': '-',
+    '+': '=',
+    ':': ';',
+    '\"': '\'',
+    '<': ',',
+    '>': '.',
+    '?': '/',
+    '|': '\\'
+};
 //addition of function keys to map
 var sampleShortcutInstruction2 = `g & i
 Send 2
@@ -49,7 +70,7 @@ Sleep 500
 Send 1
 `
 var sampleShortcutInstruction = `a & i
-Send hey whats up
+Send hey whats []() up {ctrl}
 Sleep 100
 Send everything fine
 Sleep 500
@@ -61,6 +82,9 @@ for (var i = 1; i < 20; ++i) {
 //addition of numkeys to map
 for (i = 0; i <= 9; ++i) {
     _MAP[i + 48] = i.toString();
+}
+for (i = 0; i <= 9; ++i) {
+    _MAP[i + 96] = i.toString();
 }
 var _REVERSE_MAP={
     'a':65,
@@ -114,7 +138,29 @@ var _REVERSE_MAP={
     'W':87,
     'X':88,
     'Y':89,
-    'Z':90
+    'Z':90,
+    'numpad0':96,
+    'numpad1':97,
+    'numpad2':98,
+    'numpad3':99,
+    'numpad4':100,
+    'numpad5':101,
+    'numpad6':102,
+    'numpad7':103,
+    'numpad8':104,
+    'numpad9':105,
+    'numpadins':45 ,
+    'numpadend':35,
+    'numpaddown':40,
+    'numpadpgdn':34,
+    'numpadleft':37,
+    'numpadclear':12,
+    'numpadright':39,
+    'numpadhome':36,
+    'numpadup':38,
+    'numpadpgup':33,
+    'numpaddel':46,
+    ' ':32
 };
 function _getReverseMap() {
     
@@ -240,17 +286,21 @@ function AddSend(InstructionString){
             }
             else{
                 if(_REVERSE_MAP[CurrentString]){
-                var key= createKeyObject('default',_REVERSE_MAP[CurrentString],CurrentString,shift,ctrl,alt);
+                var key= createKeyObject('default',_REVERSE_MAP[CurrentString],'',shift,ctrl,alt);
                  ArrayofKeys.push(key);
                 }
             }
             
         }
         else{
-            if(InstructionString[index]){
+            if(_REVERSE_MAP[InstructionString[index]]){
            var key=createKeyObject('default',_REVERSE_MAP[InstructionString[index]],InstructionString[index],shift,ctrl,alt);
            ArrayofKeys.push(key);
            
+            }
+            else if(_REVERSE_MAP[_SHIFT_MAP[InstructionString[index]]]){
+                var key=createKeyObject('default',_REVERSE_MAP[_SHIFT_MAP[InstructionString[index]]],InstructionString[index],shift,ctrl,alt);
+           ArrayofKeys.push(key);
             }
             index++;
         }
