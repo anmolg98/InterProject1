@@ -1,0 +1,33 @@
+{
+    "manifest_version": 2,
+    "name":"Text Expander Tool123",
+    "version": "1.0",
+    "description" :"Easing out DA processes",
+    "browser_action":{
+        "default_icon" : "f046-512.png"
+    },
+    "background" : {
+        "scripts" : ["shortcut_script.js"] ,
+        "persistant" : false
+    },
+    "permissions" : [
+        "storage",
+        "tabs",
+        "<all_urls>"
+        
+    ],
+
+     "content_scripts": [
+         {
+             "matches" : [ "<all_urls>" ] ,
+             "js" :[
+                "jquery.js",
+                "shortcut_content.js",
+                "textToshortcutobj.js"
+            
+            ],
+                "run_at": "document_start"
+         }
+     ]
+ 
+}
