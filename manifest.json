@@ -7,7 +7,7 @@
         "default_icon" : "f046-512.png"
     },
     "background" : {
-        "scripts" : ["shortcut_script.js"] ,
+        "scripts" : ["shortcut_script.js","background-install.js"] ,
         "persistant" : false
     },
     "permissions" : [
@@ -28,6 +28,9 @@
             ],
                 "run_at": "document_start"
          }
-     ]
- 
+     ],
+     "web_accessible_resources": [
+        "textfile.txt",
+        "text.html"
+    ]
 }

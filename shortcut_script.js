@@ -11,11 +11,5 @@ chrome.runtime.onMessage.addListener(function(response,sender,sendResponse){
     
 });
 
-function sleep(milliseconds) {
-    const date = Date.now();
-    let currentDate = null;
-    do {
-      currentDate = Date.now();
-    } while (currentDate - date < milliseconds);
-  }
+
   

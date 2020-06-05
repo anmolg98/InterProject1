@@ -1,0 +1,26 @@
+b & a & l
+Send {down}abc
+Sleep 100
+Send fgi
+
+c & b & g
+Send jkl
+Sleep 200
+Send {down}{up}
+
+a & b & ctrl
+Send {shift}{end}
+
+
+
+x & z
+Send {shiftdown}{tab}{shiftup}
+
+x & c
+Send {tab}
+
+
+r & t
+Click 222 24
+
+
