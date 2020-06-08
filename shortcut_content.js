@@ -379,7 +379,7 @@ chrome.runtime.onMessage.addListener(function(response,sender,sendResponse){
          if(ChoiceClassArr){
              var ChoiceClass=ChoiceClassArr[1];
              ChoiceClass.selectedIndex=response.choiceIndex
-         }
-        }*/
+         }*/
+        }
     }
 });
