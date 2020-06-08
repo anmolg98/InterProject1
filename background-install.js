@@ -366,23 +366,29 @@ function Instruction_parse(InstructionString){
     }
     
     var CommandString=CommandType.join('');
+    CommandString=CommandString.toLocaleLowerCase();
     InstructionString= InstructionString.substr(i);
-    if(CommandString=='Send'){
+    InstructionString=InstructionString.trim();
+    if(CommandString=='send'){
          
          var value=AddSend(InstructionString);
-         var obj={'Send':value};
+         var obj={'send':value};
          return obj;
          }
-   else if(CommandString=='Sleep'){
+   else if(CommandString=='sleep'){
     var value=AddSleep(InstructionString);
-    var obj={'Sleep':value};
+    var obj={'sleep':value};
     return obj;
    }
-   else if(CommandString=='Click'){
+   else if(CommandString=='click'){
        var value = AddClick(InstructionString);
        console.log('click');
-       var obj = {'Click':value};
+       var obj = {'click':value};
        return obj;
+   }
+   else if(CommandString=='dropdown'){
+      var obj={'dropdown':InstructionString};
+      return obj;
    }
    else return;
 }

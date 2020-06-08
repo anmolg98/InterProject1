@@ -13,6 +13,13 @@ Sleep 200
 Send 2
 
 t & g
+dropdown Alarms
 Send 1234
 Sleep 100
 Send der
+
+r & y
+Send {tab}
+
+u & i
+Send {Shiftdown}{tab}

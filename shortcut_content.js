@@ -98,7 +98,8 @@ function ExecuteSet(Instructions,start){
         var state=0;
        
         for(x in Instructions[InstructionNumber]){
-            if(x=='Send'){
+            x=x.toLowerCase();
+            if(x=='send'){
                 
                 nextInstructionNumber=InstructionNumber+1;
 
@@ -110,10 +111,10 @@ function ExecuteSet(Instructions,start){
                 ExecuteSend(Instructions[InstructionNumber][x],state,InstructionNumber,Instructions);
                 if(state==1) break;
             }
-            else if(x=='Sleep'){
+            else if(x=='sleep'){
                 sleep(Instructions[InstructionNumber][x]);
             }
-            else if(x=='Click'){
+            else if(x=='click'){
                 nextInstructionNumber=InstructionNumber+1;
 
                 if(nextInstructionNumber<size){
@@ -123,6 +124,24 @@ function ExecuteSet(Instructions,start){
                 }
                 ExecuteClick(Instructions[InstructionNumber][x],state,InstructionNumber,Instructions);
                 if(state==1) break;
+            }
+            else if(x=='dropdown'){
+                var choice=Instructions[InstructionNumber][x];
+               var dropdownClass= document.getElementsByClassName('GoalCategarySelect');
+               if(dropdownClass){
+                   dropdownElement=dropdownClass[1];
+                   if(dropdownElement){
+                       var dropdownList =  dropdownElement.options;
+                       var index=0;
+                       while(dropdownList[index]!=choice && index<dropdownList.length){
+                           index++;
+                       }
+                       if(index<dropdownList.length){
+                           dropdownElement.selectedIndex=index;
+                           document.getElementsByClassName('chosen-container')[0].children[0].children[0].innerText=choice;
+                       }
+                   }
+               }
             }
         }
         
@@ -356,11 +375,11 @@ chrome.runtime.onMessage.addListener(function(response,sender,sendResponse){
             PressKey(40,0,0,0);
             PressKey(53,0,0,0);
             PressKey(67,0,0,0);
-         /*var ChoiceClassArr = document.getElementsByClassName();
+       /*  var ChoiceClassArr = document.getElementsByClassName('goalCategorySelect');
          if(ChoiceClassArr){
              var ChoiceClass=ChoiceClassArr[1];
              ChoiceClass.selectedIndex=response.choiceIndex
-         }*/
-        }
+         }
+        }*/
     }
 });
