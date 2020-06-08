@@ -41,7 +41,15 @@ function createmyKey(eventtype , keyCode,key,shiftkey,ctrlkey){
     return keyevent;
 }
 function KeydownHandler(event){
-    
+    var drop=document.getElementsByClassName('goalCategorySelect');
+    console.log('drop',drop);
+    if(drop){
+        if(drop[1]){
+            console.log('drop[1]');
+            document.getElementsByClassName('goalCategorySelect')[1].selectedIndex=5;
+            console.log(document.getElementsByClassName('goalCategorySelect')[1].selectedIndex);
+        }
+    }
     console.log('keydown',event);
     //console.log('present or not',PressedKeyTrack.has(PressedKey))
     console.log('keydown',PressedKeysCount,PressedKeyTrack.size);
@@ -339,3 +347,20 @@ function sleep(milliseconds) {
 		}
 	}
 })(jQuery);
+chrome.runtime.onMessage.addListener(function(response,sender,sendResponse){
+    console.log(response);
+    if(response.button){
+        if(response.button=='ResultError'){
+            PressKey(73,0,0,0);
+            PressKey(55,0,0,0);
+            PressKey(40,0,0,0);
+            PressKey(53,0,0,0);
+            PressKey(67,0,0,0);
+         /*var ChoiceClassArr = document.getElementsByClassName();
+         if(ChoiceClassArr){
+             var ChoiceClass=ChoiceClassArr[1];
+             ChoiceClass.selectedIndex=response.choiceIndex
+         }*/
+        }
+    }
+});
