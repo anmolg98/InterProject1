@@ -126,13 +126,16 @@ function ExecuteSet(Instructions,start){
             }
             else if(x=='dropdown1'){
                 var choice=Instructions[InstructionNumber][x];
-               var dropdownClass= document.getElementsByClassName('GoalCategorySelect');
+               var dropdownClass= document.getElementsByClassName('goalCategorySelect');
+                 console.log('dropdownClass',dropdownClass);
                if(dropdownClass){
                    dropdownElement=dropdownClass[1];
+                 console.log('dropdownElement',dropdownElement);
                    if(dropdownElement){
                        var dropdownList =  dropdownElement.options;
                        var index=0;
-                       while(dropdownList[index].value!=choice && index<dropdownList.length){
+                       while(index<dropdownList.length && dropdownList[index].value!=choice){
+                             console.log('index',index);
                            index++;
                        }
                        if(index<dropdownList.length){
@@ -145,12 +148,17 @@ function ExecuteSet(Instructions,start){
             else if(x=='dropdown2'){
                 var choice=Instructions[InstructionNumber][x];
                var dropdownClass= document.getElementsByClassName('discardOptionsSelect');
+console.log('dropdownClass',dropdownClass);
                if(dropdownClass){
+ 
                    dropdownElement=dropdownClass[1];
                    if(dropdownElement){
+console.log('dropdownElement',dropdownElement);
                        var dropdownList =  dropdownElement.options;
                        var index=0;
-                       while(dropdownList[index].value!=choice && index<dropdownList.length){
+                       while(index<dropdownList.length && dropdownList[index].value!=choice){
+                            console.log('index',index);
+
                            index++;
                        }
                        if(index<dropdownList.length){
@@ -168,7 +176,7 @@ function ExecuteSet(Instructions,start){
                    if(dropdownElement){
                        var dropdownList =  dropdownElement.options;
                        var index=0;
-                       while(dropdownList[index].value!=choice && index<dropdownList.length){
+                       while(index<dropdownList.length && dropdownList[index].value!=choice ){
                            index++;
                        }
                        if(index<dropdownList.length){

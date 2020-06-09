@@ -17,7 +17,7 @@ click 25 32
 ins & )
 send xyz bc
 
-f6 & %
+k & m
 send fgh
 dropdown2 Blank NLU
 

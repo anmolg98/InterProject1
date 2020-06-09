@@ -754,7 +754,7 @@ function saveData(input){
     
                 }
                 else if(instructionType=='dropdown1'){
-                    instructionObject= {'dropdown': currentInstructionArray[1] };
+                    instructionObject= {'dropdown1': currentInstructionArray[1] };
                     OutputobjArr.push(instructionObject);
                 }
                 else if(instructionType=='dropdown2'){
