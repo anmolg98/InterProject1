@@ -1,0 +1,14 @@
+a & b
+Dropdown Alexa
+Send c1{down}7
+
+shift & n
+Dropdown alarms
+
+shift & k
+dropdown apps
+send i7{down}c1
+
+shift & g
+dropdown general search
+send i5{down}4

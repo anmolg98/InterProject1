@@ -30,9 +30,9 @@ function PressKey(keyCode,key,shiftkey,ctrlkey){
         
         else{
             console.log(CurrentEventD,CurrentEventP,CurrentEventU);
-        document.dispatchEvent(CurrentEventD);
-        document.dispatchEvent(CurrentEventP);
-        document.dispatchEvent(CurrentEventU);
+        document.activeElement.dispatchEvent(CurrentEventD);
+        document.activeElement.dispatchEvent(CurrentEventP);
+        document.activeElement.dispatchEvent(CurrentEventU);
         }
 
 }
@@ -80,7 +80,7 @@ function KeyupHandler(event){
 function CheckShortcut(shortcut){
     console.log('check_shortcut',shortcut);
 
-    chrome.storage.sync.get(shortcut,function(data){
+    chrome.storage.local.get(shortcut,function(data){
         console.log(data,data[shortcut],shortcut);
         if(data[shortcut]){
             //chrome.runtime.sendMessage({'Instruct':data[shortcut]});
@@ -106,7 +106,7 @@ function ExecuteSet(Instructions,start){
                 if(nextInstructionNumber<size){
                     var nextInstruction= Instructions[nextInstructionNumber];
                     var nextInstructionKey=Object.keys(nextInstruction);
-                    if(nextInstructionKey=='Sleep') state=1;
+                    if(nextInstructionKey=='sleep') state=1;
                 }
                 ExecuteSend(Instructions[InstructionNumber][x],state,InstructionNumber,Instructions);
                 if(state==1) break;
@@ -120,14 +120,14 @@ function ExecuteSet(Instructions,start){
                 if(nextInstructionNumber<size){
                     var nextInstruction= Instructions[nextInstructionNumber];
                     var nextInstructionKey=Object.keys(nextInstruction);
-                    if(nextInstructionKey=='Sleep') state=1;
+                    if(nextInstructionKey=='sleep') state=1;
                 }
                 ExecuteClick(Instructions[InstructionNumber][x],state,InstructionNumber,Instructions);
                 if(state==1) break;
             }
             else if(x=='dropdown'){
                 var choice=Instructions[InstructionNumber][x];
-               var dropdownClass= document.getElementsByClassName('GoalCategarySelect');
+               var dropdownClass= document.getElementsByClassName('GoalCategorySelect');
                if(dropdownClass){
                    dropdownElement=dropdownClass[1];
                    if(dropdownElement){
@@ -159,7 +159,9 @@ function ExecuteClick(Coordinates,state,Number,Instructions){
 function ExecuteSend(SendSequence,state,Number,Instructions){
     console.log('Executing Send',SendSequence);
     if(state==1){
+        console.log('before');
         chrome.runtime.sendMessage({'InstructionN':Number,'Instructions':Instructions});
+        console.log('after');
     }
     var size = SendSequence.length;
     var i=0;
@@ -366,7 +368,7 @@ function sleep(milliseconds) {
 		}
 	}
 })(jQuery);
-chrome.runtime.onMessage.addListener(function(response,sender,sendResponse){
+/*chrome.runtime.onMessage.addListener(function(response,sender,sendResponse){
     console.log(response);
     if(response.button){
         if(response.button=='ResultError'){
@@ -380,6 +382,6 @@ chrome.runtime.onMessage.addListener(function(response,sender,sendResponse){
              var ChoiceClass=ChoiceClassArr[1];
              ChoiceClass.selectedIndex=response.choiceIndex
          }*/
-        }
+      /*  }
     }
-});
+});*/

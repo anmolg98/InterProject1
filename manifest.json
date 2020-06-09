@@ -4,10 +4,11 @@
     "version": "1.0",
     "description" :"Easing out DA processes",
     "browser_action":{
-        "default_icon" : "f046-512.png"
+        "default_icon" : "f046-512.png",
+        "default_popup" : "popup.html"
     },
     "background" : {
-        "scripts" : ["shortcut_script.js","background-install.js"] ,
+        "scripts" : ["shortcut_script.js"] ,
         "persistant" : false
     },
     "permissions" : [
@@ -23,17 +24,19 @@
              "js" :[
                 "jquery.js",
                 "shortcut_content.js",
-                "textToshortcutobj.js"
+                "textToshortcutobj.js",
+                "text_expander.js"
             
             ],
                 "run_at": "document_start"
          }
      ],
-     "browser_action" : {
-         "default_popup" : "popup.html"
-     },
+    
      "web_accessible_resources": [
         "textfile.txt",
-        "text.html"
+        "text.html",
+        "ww.txt",
+        "gsr.txt",
+        "snippets.txt"
     ]
 }

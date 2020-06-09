@@ -1,94 +1,12 @@
-<!DOCTYPE html>
 <html>
-<head>
-   
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="jquery.js">
-    
-</script>
-<script src="pop-up.js">
-   
-      </script>
-
-<style>
-.center {
-  margin: auto;
-  width: 60%;
-  border: 3px solid #73AD21;
-  padding: 10px;
-}
-.dropbtn {
-  background-color: #4CAF50;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-  align-content: center;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 100px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a:hover {background-color: #ddd;}
-
-.dropdown:hover .dropdown-content {display: block;}
-
-.dropdown:hover .dropbtn {background-color: #3e8e41;}
-.button {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
- 
-}
-body {
-    min-width:400px;
-}
-</style>
-</head>
-<body>
-
-    <select name="cars" id="cars">
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="opel">Opel</option>
-        <option value="audi">Audi</option>
-      </select>
-      <br>
-
-<button class="button" id="button1">salva</button>
-<button class="button">209</button>
-<button class="button">guisto</button><br>
-<button class="button">NLU Intent</button><button class="button">ASR</button><button class="button">Non eseguibile</button><br>
-<button class="button">NLU Intent</button><button class="button">ASR</button><button class="button">Non eseguibile</button><br>
-<button class="button" id="ResultError">Risultato</button><button class="button">NLU Slot</button><button class="button">Entita Sblagiata</button><br>
-<button class="button">Missing TTS</button><button class="button">WW</button><button class="button">Miss Utt</button><br>
-<button class="button">Trans Error</button><button class="button">AOT</button><button class="button">Play Audio</button><br>
-<button class="button">Start Goal</button><button class="button">Down</button><button class="button">End Goal</button><br>
-
-</body>
+    <script src= "jquery.js"></script>
+    <script src= "popup.js">
+        
+    </script>
+    <body>
+      <p id="abc">Current Active : </p>
+        <button id='trans' >Transcription</button>
+        <button id='wake' >Wake-Word</button>
+        <button id='gsr' >GSR</button>
+    </body>
 </html>

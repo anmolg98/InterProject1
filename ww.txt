@@ -1,0 +1,18 @@
+ctrl & q
+Send 1234
+Sleep 1000
+Send 2
+Sleep 1000
+Send 3
+Sleep 1000
+Send 3
+
+shift & n
+Send 1
+Sleep 200
+Send 1
+Sleep 200
+Send 1
+
+a & b
+Send 1345

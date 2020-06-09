@@ -1,4 +1,104 @@
 
+
+$(function(){
+   chrome.storage.local.get('@#',function(data){
+    if(data['@#']){
+        var y = data['@#'];
+        document.getElementById("abc").innerHTML=y;
+    }
+   })
+    
+$("#trans").on('click',refreshtoTrans);
+$("#wake").on('click',refreshtoWW);
+$("#gsr").on('click',refreshtoGSR);
+});
+
+
+
+function refreshtoTrans(){
+    document.getElementById("abc").innerHTML="Current Active : Transcription";
+    
+    var x = $("#abc");
+    console.log(x.innerHTML);
+    chrome.storage.local.clear();
+    chrome.storage.local.set({"@#":"Current Active : Transcription"})
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange =function ()
+    {
+        if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200)
+        {
+                    var shortcuts=xhr.responseText;
+                    setTimeout(function (){
+                      console.log(shortcuts);
+                      shortcuts = JSON.parse(shortcuts);
+                      chrome.storage.local.set(shortcuts);
+                      chrome.storage.local.get(null,function(data){
+                          console.log(data);
+                      });
+
+                    },100);
+                    console.log("xyz");
+                
+        }
+    };
+    xhr.open("GET", chrome.extension.getURL('snippets.txt'),true);
+    
+    xhr.send();
+}
+function refreshtoWW(){
+    document.getElementById("abc").innerHTML="Current Active : Wake Word";
+    var x = $("#abc");
+    console.log(x.innerHTML);
+    chrome.storage.local.clear();
+    chrome.storage.local.set({"@#":"Current Active : Wake Word"})
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange =function ()
+    {
+        if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200)
+        {
+                    var text=xhr.responseText;
+                    setTimeout(function (){
+                        console.log(text);
+                        var textArray = text.split("\n");
+                        console.log(textArray);
+                        toArrayofParagraphs(textArray);
+                       // console.log(arrayOfParagraphs,arrayOfParagraphs.length);
+                    },100);
+                    console.log("xyz");
+                
+        }
+    };
+    xhr.open("GET", chrome.extension.getURL('ww.txt'),true);
+    
+    xhr.send();
+}
+function refreshtoGSR(){
+    document.getElementById("abc").innerHTML="Current Active : GSR";
+    var x = $("#abc");
+    console.log(x.innerHTML);
+    chrome.storage.local.clear();
+    chrome.storage.local.set({"@#":"Current Active : GSR"})
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange =function ()
+    {
+        if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200)
+        {
+                    var text=xhr.responseText;
+                    setTimeout(function (){
+                        console.log(text);
+                        var textArray = text.split("\n");
+                        console.log(textArray);
+                        toArrayofParagraphs(textArray);
+                       // console.log(arrayOfParagraphs,arrayOfParagraphs.length);
+                    },100);
+                    console.log("xyz");
+                
+        }
+    };
+    xhr.open("GET", chrome.extension.getURL('gsr.txt'),true);
+    
+    xhr.send();
+}
 var _MAP = {
     8: 'backspace',
     9: 'tab',
@@ -317,7 +417,7 @@ while(index < sampleShortcutInstruction.length){
 var output={};
 output[key]=obj;
 console.log('setting it',output);
-chrome.storage.sync.set(output);
+chrome.storage.local.set(output);
 }
 
 function Shortcut_parse(Shortcut_string){
@@ -400,27 +500,3 @@ function Instruction_parse(InstructionString){
 *When Installed, data taken from text file 
 * parsed and stored in appropriate format
 */
-chrome.runtime.onInstalled.addListener(function(details){
-    var xhr = new XMLHttpRequest();
-xhr.onreadystatechange =function ()
-{
-    if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200)
-    {
-                var text=xhr.responseText;
-                setTimeout(function (){
-                    console.log(text);
-                    var textArray = text.split("\n");
-                    console.log(textArray);
-                    toArrayofParagraphs(textArray);
-                   // console.log(arrayOfParagraphs,arrayOfParagraphs.length);
-                },1000);
-                console.log("xyz");
-            
-    }
-};
-xhr.open("GET", chrome.extension.getURL('textfile.txt'),true);
-
-xhr.send();
-
-} );
-
