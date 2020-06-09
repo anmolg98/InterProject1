@@ -1,9 +1,9 @@
 a & b
-Dropdown Alexa
+Dropdown1 Alexa
 Send c1{down}7
 
 shift & n
-Dropdown alarms
+Dropdown1 alarms
 
 shift & k
 dropdown apps
@@ -11,4 +11,14 @@ send i7{down}c1
 
 shift & g
 dropdown general search
-send i5{down}4
+send i5{down}{numpad1}
+click 25 32
+
+ins & )
+send xyz bc
+
+f6 & %
+send fgh
+dropdown2 Blank NLU
+
+

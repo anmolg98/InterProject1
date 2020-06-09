@@ -98,6 +98,27 @@ function refreshtoGSR(){
     xhr.open("GET", chrome.extension.getURL('gsr.txt'),true);
     
     xhr.send();
+    var xhr1 = new XMLHttpRequest();
+    xhr1.onreadystatechange =function ()
+    {
+        if(xhr1.readyState == XMLHttpRequest.DONE && xhr1.status == 200)
+        {
+                    var text=xhr1.responseText;
+                    console.log(text);
+                    setTimeout(function (){
+                        var input = JSON.parse(text);
+                        saveData(input);
+                        
+                        
+                       // console.log(arrayOfParagraphs,arrayOfParagraphs.length);
+                    },100);
+                    console.log("xyz");
+                
+        }
+    };
+    xhr1.open("GET", chrome.extension.getURL('gsr_json.txt'),true);
+    
+    xhr1.send();
 }
 var _MAP = {
     8: 'backspace',
@@ -489,10 +510,18 @@ function Instruction_parse(InstructionString){
        var obj = {'click':value};
        return obj;
    }
-   else if(CommandString=='dropdown'){
-      var obj={'dropdown':InstructionString};
+   else if(CommandString=='dropdown1'){
+      var obj={'dropdown1':InstructionString};
       return obj;
    }
+   else if(CommandString=='dropdown2'){
+    var obj={'dropdown2':InstructionString};
+    return obj;
+ }
+ else if(CommandString=='dropdown3'){
+    var obj={'dropdown3':InstructionString};
+    return obj;
+ }
    else return;
 }
 /*
@@ -500,3 +529,256 @@ function Instruction_parse(InstructionString){
 *When Installed, data taken from text file 
 * parsed and stored in appropriate format
 */
+function saveData(input){
+    var _MAP = {
+        8: 'backspace',
+        9: 'tab',
+        13: 'enter',
+        16: 'shift',
+        17: 'ctrl',
+        18: 'alt',
+        20: 'capslock',
+        27: 'esc',
+        32: 'space',
+        33: 'pageup',
+        34: 'pagedown',
+        35: 'end',
+        36: 'home',
+        37: 'left',
+        38: 'up',
+        39: 'right',
+        40: 'down',
+        45: 'ins',
+        46: 'del',
+        91: 'meta',
+        93: 'meta',
+        224: 'meta',
+        106: '*',
+        107: '+',
+        109: '-',
+        110: '.',
+        111 : '/',
+        186: ';',
+        187: '=',
+        188: ',',
+        189: '-',
+        190: '.',
+        191: '/',
+        192: '`',
+        219: '[',
+        220: '\\',
+        221: ']',
+    };
+    var _SHIFT_MAP = {
+        '~': '`',
+        '!': '1',
+        '@': '2',
+        '#': '3',
+        '$': '4',
+        '%': '5',
+        '^': '6',
+        '&': '7',
+        '*': '8',
+        '(': '9',
+        ')': '0',
+        '_': '-',
+        '+': '=',
+        ':': ';',
+        '\"': '\'',
+        '<': ',',
+        '>': '.',
+        '?': '/',
+        '|': '\\'
+    };
+    //addition of function keys to map
+    for (var i = 1; i < 20; ++i) {
+        _MAP[111 + i] = 'f' + i;
+    } 
+    //addition of numkeys to map
+    for (i = 0; i <= 9; ++i) {
+        _MAP[i + 48] = i.toString();
+    }
+    for (i = 0; i <= 9; ++i) {
+        _MAP[i + 96] = i.toString();
+    }
+    // map of character keycode pairs
+    var _REVERSE_MAP={
+        'a':65,
+        'b':66,
+        'c':67,
+        'd':68,
+        'e':69,
+        'f':70,
+        'g':71,
+        'h':72,
+        'i':73,
+        'j':74,
+        'k':75,
+        'l':76,
+        'm':77,
+        'n':78,
+        'o':79,
+        'p':80,
+        'q':81,
+        'r':82,
+        's':83,
+        't':84,
+        'u':85,
+        'v':86,
+        'w':87,
+        'x':88,
+        'y':89,
+        'z':90,
+        'A':65,
+        'B':66,
+        'C':67,
+        'D':68,
+        'E':69,
+        'F':70,
+        'G':71,
+        'H':72,
+        'I':73,
+        'J':74,
+        'K':75,
+        'L':76,
+        'M':77,
+        'N':78,
+        'O':79,
+        'P':80,
+        'Q':81,
+        'R':82,
+        'S':83,
+        'T':84,
+        'U':85,
+        'V':86,
+        'W':87,
+        'X':88,
+        'Y':89,
+        'Z':90,
+        'numpad0':96,
+        'numpad1':97,
+        'numpad2':98,
+        'numpad3':99,
+        'numpad4':100,
+        'numpad5':101,
+        'numpad6':102,
+        'numpad7':103,
+        'numpad8':104,
+        'numpad9':105,
+        'numpadins':45 ,
+        'numpadend':35,
+        'numpaddown':40,
+        'numpadpgdn':34,
+        'numpadleft':37,
+        'numpadclear':12,
+        'numpadright':39,
+        'numpadhome':36,
+        'numpadup':38,
+        'numpadpgup':33,
+        'numpaddel':46,
+        ' ':32
+    };
+    function _getReverseMap() {
+        
+            
+            for (var key in _MAP) {
+    
+                // pull out the numeric keypad from here cause keypress should
+                // be able to detect the keys from the character
+                if (key > 95 && key < 112) {
+                    continue;
+                }
+    
+                if (_MAP.hasOwnProperty(key)) {
+                    _REVERSE_MAP[_MAP[key]] = key;
+                }
+            }
+        
+        
+    }
+    _getReverseMap();
+    for(var key in _SHIFT_MAP){
+        _REVERSE_MAP[key]=_REVERSE_MAP[_SHIFT_MAP[key]];
+    }
+    
+    var output = {};
+    for(key in input){
+        if(input.hasOwnProperty(key)){
+            var OutputKey= parse_shortcut(key);
+            var OutputobjArr=[];
+            var instructionArray = input[key];
+            for(var index=0;index<instructionArray.length;index++){
+                var currentInstructionArray = instructionArray[index];
+                var instructionType  = currentInstructionArray[0];
+                instructionType= instructionType.toLowerCase();
+                var instructionObject;
+                if(instructionType=='send'){
+                    var sendsequence=[];
+                    for(var pos=1;pos<currentInstructionArray.length;pos++){
+                        var currentchar = currentInstructionArray[pos];
+                        currentcharKeyCode=_REVERSE_MAP[currentchar]
+                        var temp =currentcharKeyCode;
+                        var flag=0;
+                        if(temp>=96&&temp<=105) {flag=1;currentchar=temp-96}
+                        if(temp>=65&&temp<=90) flag =1;
+                        if(temp>=48&&temp<=57) flag =1;
+                        if(temp>=186&&temp<=192) flag =1;
+                        if(temp>=106&&temp<=111) flag =1;
+                        if(temp>=219&&temp<=221) flag =1;
+                        if(flag==1){
+                        var currentcharobj = {'key':currentchar, 'keyCode' :currentcharKeyCode, 'shift' : false, 'ctrl' : false, 'type' : 'default' };
+                        }
+                        else{
+                            var currentcharobj = {'keyCode' :currentcharKeyCode, 'shift' : false, 'ctrl' : false, 'type' : 'default' };
+                        }
+                        sendsequence.push(currentcharobj);
+    
+    
+                    }
+                    instructionObject = {'send' : sendsequence};
+                    OutputobjArr.push(instructionObject);
+                } 
+                else if(instructionType=='sleep'){
+                    var time = parseInt(currentInstructionArray[1]);
+                    instructionObject = {'sleep' : time};
+                    OutputobjArr.push(instructionObject);
+                }
+                else if(instructionType=='click'){
+                    var x = parseInt(currentInstructionArray[1]);
+                    var y = parseInt(currentInstructionArray[2]);
+                    value = [];
+                    value.push(x);
+                    value.push(y);
+                    instructionObject = {'click': value};
+                    OutputobjArr.push(instructionObject);
+    
+                }
+                else if(instructionType=='dropdown1'){
+                    instructionObject= {'dropdown': currentInstructionArray[1] };
+                    OutputobjArr.push(instructionObject);
+                }
+                else if(instructionType=='dropdown2'){
+                    instructionObject= {'dropdown2': currentInstructionArray[1] };
+                    OutputobjArr.push(instructionObject);
+                }
+                else if(instructionType=='dropdown3'){
+                    instructionObject= {'dropdown3': currentInstructionArray[1] };
+                    OutputobjArr.push(instructionObject);
+                }
+    
+            }
+            output[OutputKey]=OutputobjArr;
+        }
+    }
+    
+    function parse_shortcut(shortcut){
+        var shortcutArray = shortcut.split(/[ ,]+/);
+        for(index=0;index<shortcutArray.length;index++){
+            shortcutArray[index]=_REVERSE_MAP[shortcutArray[index]];
+        }
+        var key = shortcutArray.join('+');
+        return key;
+    }
+    console.log(input,output);
+    chrome.storage.local.set(output);
+    }

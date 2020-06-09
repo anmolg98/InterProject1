@@ -1,0 +1,37 @@
+{
+	"ctrl, a": [
+		["Send", "ctrl", "a", "space", "b", "c", "d", "shift"],
+		[
+			"Sleep",
+			100
+		],
+		[
+			"dropdown1",
+			"Alexa"
+		],
+		[
+			"Send",
+			"a",
+			"b",
+			"c",
+			"def"
+		]
+	],
+	"home , b , c": [
+		[
+			"Send",
+			"a",
+			"x",
+			"y"
+		],
+		[
+			"Click",
+			12,
+			15
+		],
+		[
+			"Sleep",
+			200
+		]
+	]
+}

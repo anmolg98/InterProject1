@@ -1,4 +1,3 @@
-console.log('running');
 var CurrentPressed = [];
 var PressedKeysCount = 0;
 var PressedKeyTrack= new Map();
@@ -125,7 +124,7 @@ function ExecuteSet(Instructions,start){
                 ExecuteClick(Instructions[InstructionNumber][x],state,InstructionNumber,Instructions);
                 if(state==1) break;
             }
-            else if(x=='dropdown'){
+            else if(x=='dropdown1'){
                 var choice=Instructions[InstructionNumber][x];
                var dropdownClass= document.getElementsByClassName('GoalCategorySelect');
                if(dropdownClass){
@@ -133,12 +132,48 @@ function ExecuteSet(Instructions,start){
                    if(dropdownElement){
                        var dropdownList =  dropdownElement.options;
                        var index=0;
-                       while(dropdownList[index]!=choice && index<dropdownList.length){
+                       while(dropdownList[index].value!=choice && index<dropdownList.length){
                            index++;
                        }
                        if(index<dropdownList.length){
                            dropdownElement.selectedIndex=index;
                            document.getElementsByClassName('chosen-container')[0].children[0].children[0].innerText=choice;
+                       }
+                   }
+               }
+            }
+            else if(x=='dropdown2'){
+                var choice=Instructions[InstructionNumber][x];
+               var dropdownClass= document.getElementsByClassName('discardOptionsSelect');
+               if(dropdownClass){
+                   dropdownElement=dropdownClass[1];
+                   if(dropdownElement){
+                       var dropdownList =  dropdownElement.options;
+                       var index=0;
+                       while(dropdownList[index].value!=choice && index<dropdownList.length){
+                           index++;
+                       }
+                       if(index<dropdownList.length){
+                           dropdownElement.selectedIndex=index;
+                           document.getElementsByClassName('chosen-container')[1].children[0].children[0].innerText=choice;
+                       }
+                   }
+               }
+            }
+            else if(x=='dropdown3'){
+                var choice=Instructions[InstructionNumber][x];
+               var dropdownClass= document.getElementsByClassName('notTrainedOptionsSelect');
+               if(dropdownClass){
+                   dropdownElement=dropdownClass[1];
+                   if(dropdownElement){
+                       var dropdownList =  dropdownElement.options;
+                       var index=0;
+                       while(dropdownList[index].value!=choice && index<dropdownList.length){
+                           index++;
+                       }
+                       if(index<dropdownList.length){
+                           dropdownElement.selectedIndex=index;
+                           document.getElementsByClassName('chosen-container')[2].children[0].children[0].innerText=choice;
                        }
                    }
                }
