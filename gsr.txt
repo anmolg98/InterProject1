@@ -3,7 +3,7 @@ Dropdown1 Alexa
 Send c1{down}7
 
 shift & n
-Dropdown1 alarms
+Dropdown1 Alarms
 
 shift & k
 dropdown apps
