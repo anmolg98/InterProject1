@@ -33,5 +33,6 @@
 			"Sleep",
 			200
 		]
-	]
+	],
+   "r , t" : [["Send","a","b","1","2"],["dropdown2","NLU Intent"],["Send","x","down","c","7"],["dropdown1","Alarms"]]
 }
