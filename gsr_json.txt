@@ -1,38 +1,17 @@
 {
 	"ctrl, a": [
-		["Send", "ctrl", "a", "space", "b", "c", "d", "shift"],
-		[
-			"Sleep",
-			100
-		],
-		[
-			"dropdown1",
-			"Alexa"
-		],
-		[
-			"Send",
-			"a",
-			"b",
-			"c",
-			"def"
-		]
-	],
+		["Send", "ctrl", "a", "space", "b", "c", "d", "shift"],["Sleep",100],
+		["dropdown1","Alexa"],
+		["Send","a","b","c","d"]
+        ],
+
 	"home , b , c": [
-		[
-			"Send",
-			"a",
-			"x",
-			"y"
-		],
-		[
-			"Click",
-			12,
-			15
-		],
-		[
-			"Sleep",
-			200
-		]
+		["Send","a","x","y"],
+		["Sleep",200]
 	],
-   "r , t" : [["Send","a","b","1","2"],["dropdown2","NLU Intent"],["Send","x","down","c","7"],["dropdown1","Alarms"]]
+
+   "f2 , t" : [["Send","a","b","1","2"],
+              ["select_discard","Blank NLU"],
+              ["Send","x","down","c","7"],
+              ["select_goalcategory","Alarms"]]
 }

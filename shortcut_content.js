@@ -124,7 +124,7 @@ function ExecuteSet(Instructions,start){
                 ExecuteClick(Instructions[InstructionNumber][x],state,InstructionNumber,Instructions);
                 if(state==1) break;
             }
-            else if(x=='dropdown1'){
+            else if(x=='select_goalcategory'){
                 var choice=Instructions[InstructionNumber][x];
                var dropdownClass= document.getElementsByClassName('goalCategorySelect');
                  console.log('dropdownClass',dropdownClass);
@@ -145,7 +145,7 @@ function ExecuteSet(Instructions,start){
                    }
                }
             }
-            else if(x=='dropdown2'){
+            else if(x=='select_discard'){
                 var choice=Instructions[InstructionNumber][x];
                var dropdownClass= document.getElementsByClassName('discardOptionsSelect');
 console.log('dropdownClass',dropdownClass);
@@ -168,7 +168,7 @@ console.log('dropdownElement',dropdownElement);
                    }
                }
             }
-            else if(x=='dropdown3'){
+            else if(x=='select_nottrained'){
                 var choice=Instructions[InstructionNumber][x];
                var dropdownClass= document.getElementsByClassName('notTrainedOptionsSelect');
                if(dropdownClass){
