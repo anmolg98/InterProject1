@@ -1,0 +1,7 @@
+{
+    "sample" : "expandit",
+    "41" : "forty one",
+    "42": "forty two",
+    "Hey" : "Hey, how are you doin?"
+
+}

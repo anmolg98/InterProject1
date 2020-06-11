@@ -24,7 +24,6 @@
              "js" :[
                 "jquery.js",
                 "shortcut_content.js",
-                "textToshortcutobj.js",
                 "text_expander.js"
             
             ],

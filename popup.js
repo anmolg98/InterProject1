@@ -1,5 +1,3 @@
-
-
 $(function(){
    chrome.storage.local.get('@#',function(data){
     if(data['@#']){
@@ -8,21 +6,24 @@ $(function(){
     }
    })
     
-$("#trans").on('click',refreshtoTrans);
-$("#wake").on('click',refreshtoWW);
-$("#gsr").on('click',refreshtoGSR);
+$("button").on('click',refreshWorkflow);
+//$("#WakeWord").on('click',refreshtoWW);
+//$("#GSR").on('click',refreshtoGSR);
 });
 
 
 
-function refreshtoTrans(){
-    document.getElementById("abc").innerHTML="Current Active : Transcription";
-    
+function refreshWorkflow(event){
+    document.getElementById("abc").innerHTML="Current Active : " + event.target.id;
+    console.log('event',event.target.id);
     var x = $("#abc");
     console.log(x.innerHTML);
     chrome.storage.local.clear();
-    chrome.storage.local.set({"@#":"Current Active : Transcription"})
-    var xhr = new XMLHttpRequest();
+
+    var html = "Current Active : " + event.target.id;
+    chrome.storage.local.set({"@#":html});
+    var fname =event.target.id + "_expander.txt"; 
+     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange =function ()
     {
         if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200)
@@ -41,11 +42,31 @@ function refreshtoTrans(){
                 
         }
     };
-    xhr.open("GET", chrome.extension.getURL('snippets.txt'),true);
+    xhr.open("GET", chrome.extension.getURL(fname),true);
     
     xhr.send();
+    fname =event.target.id + "_shortcuts.txt"; 
+    var xhr1 = new XMLHttpRequest();
+    xhr1.onreadystatechange =function ()
+    {
+        if(xhr1.readyState == XMLHttpRequest.DONE && xhr1.status == 200)
+        {
+                    var shortcuts=xhr1.responseText;
+                    setTimeout(function (){
+                      console.log(shortcuts);
+                      input = JSON.parse(shortcuts);
+                      saveData(input);
+
+                    },100);
+                    console.log("xyz");
+                
+        }
+    };
+    xhr1.open("GET", chrome.extension.getURL(fname),true);
+    
+    xhr1.send();
 }
-function refreshtoWW(){
+/*function refreshtoWW(){
     document.getElementById("abc").innerHTML="Current Active : Wake Word";
     var x = $("#abc");
     console.log(x.innerHTML);
@@ -71,8 +92,29 @@ function refreshtoWW(){
     xhr.open("GET", chrome.extension.getURL('ww.txt'),true);
     
     xhr.send();
-}
-function refreshtoGSR(){
+    var xhr1 = new XMLHttpRequest();
+    xhr1.onreadystatechange =function ()
+    {
+        if(xhr1.readyState == XMLHttpRequest.DONE && xhr1.status == 200)
+        {
+                    var text=xhr1.responseText;
+                    console.log(text);
+                    setTimeout(function (){
+                        var input = JSON.parse(text);
+                        saveData(input);
+                        
+                        
+                       // console.log(arrayOfParagraphs,arrayOfParagraphs.length);
+                    },100);
+                    console.log("xyz");
+                
+        }
+    };
+    xhr1.open("GET", chrome.extension.getURL('ww_json.txt'),true);
+    
+    xhr1.send();
+}*/
+/*function refreshtoGSR(){
     document.getElementById("abc").innerHTML="Current Active : GSR";
     var x = $("#abc");
     console.log(x.innerHTML);
@@ -119,7 +161,7 @@ function refreshtoGSR(){
     xhr1.open("GET", chrome.extension.getURL('gsr_json.txt'),true);
     
     xhr1.send();
-}
+}*/
 var _MAP = {
     8: 'backspace',
     9: 'tab',
@@ -510,16 +552,16 @@ function Instruction_parse(InstructionString){
        var obj = {'click':value};
        return obj;
    }
-   else if(CommandString=='dropdown1'){
-      var obj={'dropdown1':InstructionString};
+   else if(CommandString=='select_goalcategory'){
+      var obj={'select_goalcategory':InstructionString};
       return obj;
    }
-   else if(CommandString=='dropdown2'){
-    var obj={'dropdown2':InstructionString};
+   else if(CommandString=='select_discard'){
+    var obj={'select_discard':InstructionString};
     return obj;
  }
- else if(CommandString=='dropdown3'){
-    var obj={'dropdown3':InstructionString};
+ else if(CommandString=='select_nottrained'){
+    var obj={'select_nottrained':InstructionString};
     return obj;
  }
    else return;
@@ -542,9 +584,18 @@ function saveData(input){
                 instructionType= instructionType.toLowerCase();
                 var instructionObject;
                 if(instructionType=='send'){
+                    var shift=false;
+                    var ctrl=false;
+                    var alt = false;
                     var sendsequence=[];
                     for(var pos=1;pos<currentInstructionArray.length;pos++){
                         var currentchar = currentInstructionArray[pos];
+                        if(currentchar=="shiftdown") {shift=true;currentchar="shift"}
+                        if(currentchar=="ctrldown") {ctrl=true;currentchar="ctrl"}
+                        if(currentchar=="alttdown") {alt=true;currentchar="alt"}
+                        if(currentchar=="shiftup") {shift=false;continue;}
+                        if(currentchar=="ctrlup") {ctrl=false;continue}
+                        if(currentchar=="altup") {alt=false;continue;}
                         currentcharKeyCode=_REVERSE_MAP[currentchar]
                         var temp =currentcharKeyCode;
                         var flag=0;
@@ -555,10 +606,10 @@ function saveData(input){
                         if(temp>=106&&temp<=111) flag =1;
                         if(temp>=219&&temp<=221) flag =1;
                         if(flag==1){
-                        var currentcharobj = {'key':currentchar, 'keyCode' :currentcharKeyCode, 'shift' : false, 'ctrl' : false, 'type' : 'default' };
+                        var currentcharobj = {'key':currentchar, 'keyCode' :currentcharKeyCode, 'shift' : shift, 'ctrl' : ctrl,'alt' :alt };
                         }
                         else{
-                            var currentcharobj = {'keyCode' :currentcharKeyCode, 'shift' : false, 'ctrl' : false, 'type' : 'default' };
+                            var currentcharobj = {'keyCode' :currentcharKeyCode, 'shift' : shift, 'ctrl' : ctrl,'alt':alt };
                         }
                         sendsequence.push(currentcharobj);
     
@@ -590,8 +641,8 @@ function saveData(input){
                     instructionObject= {'select_discard': currentInstructionArray[1] };
                     OutputobjArr.push(instructionObject);
                 }
-                else if(instructionType=='select_options'){
-                    instructionObject= {'select_options': currentInstructionArray[1] };
+                else if(instructionType=='select_nottrained'){
+                    instructionObject= {'select_nottrained': currentInstructionArray[1] };
                     OutputobjArr.push(instructionObject);
                 }
     
@@ -601,6 +652,7 @@ function saveData(input){
     }
     
     function parse_shortcut(shortcut){
+        shortcut=shortcut.trim();
         var shortcutArray = shortcut.split(/[ ,]+/);
         for(index=0;index<shortcutArray.length;index++){
             shortcutArray[index]=_REVERSE_MAP[shortcutArray[index]];

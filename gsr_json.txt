@@ -5,7 +5,7 @@
 		["Send","a","b","c","d"]
         ],
 
-	"home , b , c": [
+	"b , c": [
 		["Send","a","x","y"],
 		["Sleep",200]
 	],
@@ -13,5 +13,11 @@
    "f2 , t" : [["Send","a","b","1","2"],
               ["select_discard","Blank NLU"],
               ["Send","x","down","c","7"],
-              ["select_goalcategory","Alarms"]]
+              ["select_goalcategory","Alarms"]],
+   " numpadleft, y" :[
+	   ["Send","a","b","d"],
+	   ["Sleep","1000"],
+	   ["Send","x","y","z"]
+   ]
+
 }
